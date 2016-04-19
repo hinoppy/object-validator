@@ -1,0 +1,28 @@
+{
+  "name": "object-validator",
+  "version": "0.0.1",
+  "description": "Object validation and sanitization",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hinoppy/object-validator.git"
+  },
+  "keywords": [
+    "node",
+    "validator",
+    "object"
+  ],
+  "author": "Shinya Hino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hinoppy/object-validator/issues"
+  },
+  "homepage": "https://github.com/hinoppy/object-validator#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  }
+}
