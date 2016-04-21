@@ -8,12 +8,10 @@ const ValidatorError = require('./errors/ValidatorError');
 /**
  * function to create error object used when missing required parameter
  */
-const NullViolation = (type) => {
+const NullViolation = (expectedType) => {
   return {
     error: 'NullViolation',
-    info: {
-      type
-    }
+    expectedType: expectedType
   };
 };
 
@@ -23,10 +21,8 @@ const NullViolation = (type) => {
 const TypeMismatch = (value, expectedType) => {
   return {
     error: 'TypeMismatch',
-    info: {
-      value,
-      expectedType
-    }
+    value: value,
+    expectedType: expectedType
   };
 };
 
