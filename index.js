@@ -43,14 +43,10 @@ const type = {
  * check if the value is empty
  */
 const _checkEmpty = function(value, definition) {
+  if (!definition.allowNull && validator.isEmpty(value)) {
+    return NullViolation(definition.type);
+  }
   switch(definition.type) {
-    case type.STRING:
-    case type.NUMBER:
-    case type.BOOLEAN:
-      if (!definition.allowNull && validator.isEmpty(value)) {
-        return NullViolation(definition.type);
-      }
-      break;
     case type.ARRAY:
       if (!Array.isArray(value)) {
         return;
