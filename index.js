@@ -180,8 +180,10 @@ const _validate = (object, definitions, callback) => {
     }
 
     if (definition.type == type.ARRAY) {
-      // arrayify value if type is array
-      value = _arrayify(value);
+      // arrayify value if needed
+      if (definition.arrayify) {
+        value = _arrayify(value);
+      }
 
       // remove empty element from array if needed
       if (definition.removeEmptyElement) {
