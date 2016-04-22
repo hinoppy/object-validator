@@ -205,6 +205,12 @@ const _validate = (object, definitions, callback) => {
       return;
     }
 
+    if (!value) {
+      // end if empty
+      validated[key] = value;
+      return;
+    }
+
     // validate properties if type is `object`
     if (definition.type == type.OBJECT) {
       _validate(value, definition.properties, (errors, object) => {
@@ -213,15 +219,14 @@ const _validate = (object, definitions, callback) => {
         }
         validated[key] = object;
       });
-    } else {
-      // sanitize value before check rules
-      value = _sanitize(value, definition);
-
-      // overwrite object by sanitized value
-      if (value) {
-        validated[key] = value;
-      }
+      return;
     }
+
+    // sanitize
+    value = _sanitize(value, definition);
+
+    // overwrite object by sanitized value
+    validated[key] = value;
   });
 
   // check if there is any error
