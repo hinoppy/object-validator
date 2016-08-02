@@ -46,40 +46,18 @@ const _checkEmpty = function(value, definition) {
   if (!definition.allowNull && validator.isEmpty(value)) {
     return NullViolation(definition.type);
   }
-  switch(definition.type) {
-    case type.ARRAY:
-      if (!Array.isArray(value)) {
-        return;
-      }
-      const errors = value.map((element, index) => {
-        const error = _checkEmpty(element, definition.element);
-        if (!definition.element.allowNull) {
-          if (error) {
-            return {
-              index: index,
-              info: error
-            };
-          }
-        }
-      });
-      _removeEmptyElement(errors);
-      if (errors.length <= 0 ) {
-        return;
-      }
-      return {
-        errors
-      };
-      break;
-  }
 };
 
 
 /**
  * check if the value is type of the type specified
  */
-const _checkType = (value, definition) => {
+const _validateValue = (value, definition) => {
   if (definition.allowNull && validator.isEmpty(value)) {
     return;
+  }
+  if (_checkEmpty(value, definition)) {
+    return _checkEmpty(value, definition);
   }
   if (definition.type === type.STRING) {
     if (!validator.isString(value)) {
@@ -100,7 +78,7 @@ const _checkType = (value, definition) => {
       return TypeMismatch(value, definition.type);
     }
     const errors = value.map((element, index) => {
-      const error = _checkType(element, definition.element);
+      const error = _validateValue(element, definition.element);
       if (error) {
         return {
           index: index,
@@ -191,15 +169,8 @@ const _validate = (object, definitions, callback) => {
       }
     }
 
-    // check empty
-    let emptyError = _checkEmpty(value, definition);
-    if (emptyError) {
-      validationErrors[key] = emptyError;
-      return;
-    }
-
     // check type
-    let typeError = _checkType(value, definition);
+    let typeError = _validateValue(value, definition);
     if (typeError) {
       validationErrors[key] = typeError;
       return;
